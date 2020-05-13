@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+        <h2>Select a Design Category :</h2>
+    </div>
+    <div class="media" id="myDIV">
+        <!-- <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="i1.png" width="100" height="100"> -->
+        <div class="media-body">
+          <!-- <h4 class="mt-0 font-weight-bold blue-text">Formal</h4> -->
+          <a href="3.html"><img src="2.png" id="i1" onClick="GFG_click(this.id)" alt="Nature" style="width:400px;height:400px;"></a>
+          <a href="3.html"><img src="3.png" id="i2" onClick="GFG_click(this.id)" alt="Nature" style="width:400px;height:400px;"></a>
+          <a href="3.html"><img src="3.png" id="i3" onClick="GFG_click(this.id)" alt="Nature" style="width:400px;height:400px;"></a>
+              <a href="3.html"><img id="upload-Preview" src=""onClick="GFG_click(this.id)" ></a>
+              <br>
+              <h3>Add your own Template:</h3><input type='file'id="upload-Image" onchange="loadImageFile();" />
+            </div>
+
+          </div>
+          <script type="text/javascript">
+            var fileReader = new FileReader();
+            var filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+            
+            fileReader.onload = function (event) {
+              var image = new Image();
+              
+              image.onload=function(){
+                //   document.getElementById("original-Img").src=image.src;
+                  var canvas=document.createElement("canvas");
+                  var context=canvas.getContext("2d");
+                  canvas.width=400;
+                  canvas.height=400;
+                  context.drawImage(image,
+                      0,
+                      0,
+                      image.width,
+                      image.height,
+                      0,
+                      0,
+                      canvas.width,
+                      canvas.height
+                  );
+                  
+                  document.getElementById("upload-Preview").src = canvas.toDataURL();
+              }
+              image.src=event.target.result;
+            };
+            
+            var loadImageFile = function () {
+              var uploadImage = document.getElementById("upload-Image");
+              
+              //check and retuns the length of uploded file.
+              if (uploadImage.files.length === 0) { 
+                return; 
+              }
+              
+              //Is Used for validate a valid file.
+              var uploadFile = document.getElementById("upload-Image").files[0];
+              if (!filterType.test(uploadFile.type)) {
+                alert("Please select a valid image."); 
+                return;
+              }
+              
+              fileReader.readAsDataURL(uploadFile);
+            }
+            //to convert the image to base64
+            function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+
+            //to store the given templates to local storage
+            function GFG_click(clicked) { 
+                // el_down.innerHTML = "ID = "+clicked; 
+                // var k= clicked;
+                // //var c = k.slice(2);
+                // el_up.innerHTML=k;
+                bannerImage = document.getElementById(clicked.valueOf());
+                imgData = getBase64Image(bannerImage);
+                localStorage.setItem("url", imgData);
+
+
+            }
+            </script>
+</body>
+</html>
